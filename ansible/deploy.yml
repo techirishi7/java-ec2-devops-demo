@@ -1,0 +1,28 @@
+---
+- name: Deploy Java demo to all app servers
+  hosts: app_servers
+  become: true
+  vars:
+    docker_image: "{{ lookup('env', 'DOCKERHUB_USER') }}/java-ec2-demo:latest"
+    container_name: java-ec2-demo
+  tasks:
+    - name: Ensure Docker is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+    - name: Pull the latest application image
+      community.docker.docker_image:
+        name: "{{ docker_image }}"
+        source: pull
+        force_source: true
+    - name: Replace the application container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ docker_image }}"
+        state: started
+        restart_policy: always
+        published_ports:
+          - "8080:8080"
+        recreate: true
+sudo -u jenkins ansible-galaxy collection install community.docker
