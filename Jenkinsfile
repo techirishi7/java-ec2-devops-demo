@@ -1,8 +1,8 @@
 pipeline {
   agent any
   environment {
-    IMAGE_NAME = "YOUR_DOCKERHUB_USERNAME/java-ec2-demo:latest"
-    DOCKERHUB_USER = "YOUR_DOCKERHUB_USERNAME"
+    IMAGE_NAME = "rushikeshdevops25/java-ec2-demo:latest"
+    DOCKERHUB_USER = "rushikeshdevops25"
     ANSIBLE_HOST_KEY_CHECKING = "False"
   }
   stages {
